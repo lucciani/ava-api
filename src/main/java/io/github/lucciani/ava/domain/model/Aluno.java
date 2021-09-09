@@ -5,8 +5,6 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -51,12 +49,20 @@ public class Aluno {
 	@ManyToOne
 	@JoinColumn(name = "ocupacao_id", nullable = false)
 	private Ocupacao ocupacao;
-	
+
 	private String foto;
 
-	@Enumerated(value = EnumType.STRING)
-	@Column(name = "tipo_aluno")
-	private final static TipoAluno tipoAluno = TipoAluno.SISTEMA;
+	@ManyToOne
+	@JoinColumn(name = "tipo_aluno_id", nullable = false)
+	private TipoAluno tipoAluno;
+
+	@ManyToOne
+	@JoinColumn(name = "empresa_id")
+	private Empresa empresa;
+
+	@ManyToOne
+	@JoinColumn(name = "escola_id", nullable = false)
+	private CatalogoEscola catalogoEscola;
 
 	@CreationTimestamp
 	@Column(nullable = false, name = "dt_inclusao", columnDefinition = "datetime(0)")

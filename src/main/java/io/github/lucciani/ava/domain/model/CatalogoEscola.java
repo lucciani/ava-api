@@ -5,8 +5,6 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,47 +20,32 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class AlunoEscolaPrivada {
+public class CatalogoEscola {
 
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	private String matricula;
 
-	private String documento;
-
-	@ManyToOne
-	@JoinColumn(name = "tipo_documento_id")
-	private TipoDocumento tipoDocumento;
-
-	@Embedded
-	private Pessoa pessoa;
+	@Column(nullable = false, name = "nome")
+	private String nome;
 
 	@Embedded
 	private Endereco endereco;
 
-	@Embedded
-	private Contato contato;
+	private Long codigoEscola;
 
 	@ManyToOne
-	@JoinColumn(name = "escolaridade_id", nullable = false)
-	private Escolaridade escolaridade;
+	@JoinColumn(name = "crede_id")
+	private Crede crede;
 
 	@ManyToOne
-	@JoinColumn(name = "ocupacao_id", nullable = false)
-	private Ocupacao ocupacao;
-	
-	@ManyToOne
-	@JoinColumn(name = "escola_privada_id", nullable = false)
-	private EscolaPrivada escolaPrivada; 
+	@JoinColumn(name = "categoria_administrativa_id")
+	private CategoriaAdministrativa categoriaAdministrativa;
 
-	@Enumerated(value = EnumType.STRING)
-	@Column(name = "tipo_aluno")
-	private final static TipoAluno tipoAluno = TipoAluno.PRIVADA;
-	
-	private String foto;
+	@ManyToOne
+	@JoinColumn(name = "situacao_escola")
+	private SituacaoEscola situacaoEscola;
 
 	@CreationTimestamp
 	@Column(nullable = false, name = "dt_inclusao", columnDefinition = "datetime(0)")
@@ -71,5 +54,4 @@ public class AlunoEscolaPrivada {
 	@UpdateTimestamp
 	@Column(nullable = false, name = "dt_atualizacao", columnDefinition = "datetime(0)")
 	private LocalDateTime dataAtualizacao;
-
 }

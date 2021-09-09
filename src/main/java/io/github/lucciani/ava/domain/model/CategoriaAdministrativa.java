@@ -17,16 +17,16 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class TipoAluno {
-	
+public class CategoriaAdministrativa {
+
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(nullable = false, name = "descricao")
 	private String descricao;
-	
+
 	@CreationTimestamp
 	@Column(nullable = false, name = "dt_inclusao", columnDefinition = "datetime(0)")
 	private LocalDateTime dataInclusao;
@@ -34,5 +34,4 @@ public class TipoAluno {
 	@UpdateTimestamp
 	@Column(nullable = false, name = "dt_atualizacao", columnDefinition = "datetime(0)")
 	private LocalDateTime dataAtualizacao;
-
 }

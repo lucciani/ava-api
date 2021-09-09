@@ -30,9 +30,6 @@ public class Empresa {
 	@Column(nullable = false, name = "razao_social")
 	private String razaoSocial;
 	
-	@Column(nullable = false, name = "aluno_id")
-	private Long alunoId;
-	
 	@CreationTimestamp
 	@Column(nullable = false, name = "dt_inclusao", columnDefinition = "datetime(0)")
 	private LocalDateTime dataInclusao;
