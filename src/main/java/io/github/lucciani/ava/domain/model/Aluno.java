@@ -2,14 +2,14 @@ package io.github.lucciani.ava.domain.model;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -23,14 +23,15 @@ import lombok.EqualsAndHashCode;
 public class Aluno {
 
 	@EqualsAndHashCode.Include
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@EmbeddedId
+	private AlunoId id;
 
+	@Column(name = "documento", insertable = false, updatable = false)
 	private String documento;
 
-	@ManyToOne
-	@JoinColumn(name = "tipo_documento_id", nullable = false)
+	@MapsId(value = "tipoDocumento")
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "tipo_documento_id", nullable = false, insertable = false, updatable = false)
 	private TipoDocumento tipoDocumento;
 
 	@Embedded
@@ -52,8 +53,9 @@ public class Aluno {
 
 	private String foto;
 
+	@MapsId(value = "tipoAluno")
 	@ManyToOne
-	@JoinColumn(name = "tipo_aluno_id", nullable = false)
+	@JoinColumn(name = "tipo_aluno_id", nullable = false, insertable = false, updatable = false)
 	private TipoAluno tipoAluno;
 
 	@ManyToOne

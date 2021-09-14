@@ -23,6 +23,8 @@ public class Cidade {
 
 	@Column(nullable = false)
 	private String nome;
+	
+	private Long codigoIbge;
 
 	@ManyToOne
 	@JoinColumn(nullable = false)

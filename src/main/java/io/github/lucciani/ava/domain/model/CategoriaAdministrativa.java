@@ -26,12 +26,4 @@ public class CategoriaAdministrativa {
 
 	@Column(nullable = false, name = "descricao")
 	private String descricao;
-
-	@CreationTimestamp
-	@Column(nullable = false, name = "dt_inclusao", columnDefinition = "datetime(0)")
-	private LocalDateTime dataInclusao;
-
-	@UpdateTimestamp
-	@Column(nullable = false, name = "dt_atualizacao", columnDefinition = "datetime(0)")
-	private LocalDateTime dataAtualizacao;
 }

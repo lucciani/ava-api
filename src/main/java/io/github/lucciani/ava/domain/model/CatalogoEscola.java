@@ -33,7 +33,7 @@ public class CatalogoEscola {
 	@Embedded
 	private Endereco endereco;
 
-	private Long codigoEscola;
+	private Long codigoInep;
 
 	@ManyToOne
 	@JoinColumn(name = "crede_id")
