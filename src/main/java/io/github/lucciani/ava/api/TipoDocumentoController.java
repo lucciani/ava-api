@@ -1,12 +1,10 @@
 package io.github.lucciani.ava.api;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.lucciani.ava.domain.exception.EntidadeEmUsoException;
-import io.github.lucciani.ava.domain.exception.EntidadeNaoEncontradaException;
 import io.github.lucciani.ava.domain.model.TipoDocumento;
 import io.github.lucciani.ava.domain.repository.TipoDocumentoRepository;
 import io.github.lucciani.ava.domain.service.CadastroTipoDocumentoService;
@@ -39,14 +35,8 @@ public class TipoDocumentoController {
 	}
 
 	@GetMapping(value = "/{tipoDocumentoId}")
-	public ResponseEntity<TipoDocumento> buscar(@PathVariable Long tipoDocumentoId) {
-		Optional<TipoDocumento> tipoDocumento = tipoDocumentoRepository.findById(tipoDocumentoId);
-
-		if (tipoDocumento.isPresent()) {
-			return ResponseEntity.ok(tipoDocumento.get());
-		}
-
-		return ResponseEntity.notFound().build();
+	public TipoDocumento buscar(@PathVariable Long tipoDocumentoId) {
+		return cadastroTipoDocumento.buscarSeExistir(tipoDocumentoId);
 	}
 
 	@PostMapping
@@ -56,31 +46,17 @@ public class TipoDocumentoController {
 	}
 
 	@PutMapping(value = "/{tipoDocumentoId}")
-	public ResponseEntity<TipoDocumento> atualizar(@PathVariable Long tipoDocumentoId, @RequestBody TipoDocumento tipoDocumento) {
+	public TipoDocumento atualizar(@PathVariable Long tipoDocumentoId, @RequestBody TipoDocumento tipoDocumento) {
 
-		Optional<TipoDocumento> tipoDocumentoAtual = tipoDocumentoRepository.findById(tipoDocumentoId);
+		TipoDocumento tipoDocumentoAtual = cadastroTipoDocumento.buscarSeExistir(tipoDocumentoId);
 
-		if (tipoDocumentoAtual.isPresent()) {
-			BeanUtils.copyProperties(tipoDocumento, tipoDocumentoAtual.get(), "id");
-			TipoDocumento tipoDocumentoSalvo = cadastroTipoDocumento.salvar(tipoDocumentoAtual.get());
-			return ResponseEntity.ok(tipoDocumentoSalvo);
-		}
-
-		return ResponseEntity.notFound().build();
+		BeanUtils.copyProperties(tipoDocumento, tipoDocumentoAtual, "id");
+		return cadastroTipoDocumento.salvar(tipoDocumentoAtual);
 	}
 
 	@DeleteMapping(value = "/{tipoDocumentoId}")
-	public ResponseEntity<?> remover(@PathVariable Long tipoDocumentoId) {
-		try {
-			cadastroTipoDocumento.remover(tipoDocumentoId);
-			return ResponseEntity.noContent().build();
-
-		} catch (EntidadeEmUsoException e) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-
-		} catch (EntidadeNaoEncontradaException e) {
-			return ResponseEntity.notFound().build();
-		}
-
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void remover(@PathVariable Long tipoDocumentoId) {
+		cadastroTipoDocumento.remover(tipoDocumentoId);
 	}
 }
