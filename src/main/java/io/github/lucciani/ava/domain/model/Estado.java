@@ -2,11 +2,11 @@ package io.github.lucciani.ava.domain.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,7 +18,6 @@ public class Estado {
 
 	@EqualsAndHashCode.Include
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
 	private Long id;
 
 	@Column(nullable = false)
@@ -27,6 +26,7 @@ public class Estado {
 	@Column(nullable = false)
 	private String nome;
 		
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Regiao regiao;

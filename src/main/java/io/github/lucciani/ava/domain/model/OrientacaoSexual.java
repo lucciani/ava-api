@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class CategoriaAdministrativa {
+public class OrientacaoSexual {
 
 	@EqualsAndHashCode.Include
 	@Id
@@ -21,4 +21,5 @@ public class CategoriaAdministrativa {
 
 	@Column(nullable = false, name = "descricao")
 	private String descricao;
+
 }
