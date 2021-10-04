@@ -1,8 +1,9 @@
-package io.github.lucciani.ava.api;
+package io.github.lucciani.ava.api.controller;
 
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.github.lucciani.ava.api.assembler.TipoDocumentoInputDiassembler;
+import io.github.lucciani.ava.api.assembler.TipoDocumentoModelAssembler;
+import io.github.lucciani.ava.api.model.TipoDocumentoModel;
+import io.github.lucciani.ava.api.model.input.TipoDocumentoInput;
 import io.github.lucciani.ava.domain.model.TipoDocumento;
 import io.github.lucciani.ava.domain.repository.TipoDocumentoRepository;
 import io.github.lucciani.ava.domain.service.CadastroTipoDocumentoService;
@@ -28,30 +33,38 @@ public class TipoDocumentoController {
 
 	@Autowired
 	private CadastroTipoDocumentoService cadastroTipoDocumento;
+	
+	@Autowired
+	private TipoDocumentoModelAssembler tipoDocumentoModelAssembler;
+	
+	@Autowired
+	private TipoDocumentoInputDiassembler tipoDocumentoInputDiassembler;
 
 	@GetMapping
-	public List<TipoDocumento> listar() {
-		return tipoDocumentoRepository.findAll();
+	public List<TipoDocumentoModel> listar() {
+		return tipoDocumentoModelAssembler.toCollectionModel(tipoDocumentoRepository.findAll());
 	}
 
 	@GetMapping(value = "/{tipoDocumentoId}")
-	public TipoDocumento buscar(@PathVariable Long tipoDocumentoId) {
-		return cadastroTipoDocumento.buscarSeExistir(tipoDocumentoId);
+	public TipoDocumentoModel buscar(@PathVariable Long tipoDocumentoId) {
+		return tipoDocumentoModelAssembler.toModel(cadastroTipoDocumento.buscarSeExistir(tipoDocumentoId));
 	}
 
 	@PostMapping
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public TipoDocumento adicionar(@RequestBody TipoDocumento tipoDocumento) {
-		return cadastroTipoDocumento.salvar(tipoDocumento);
+	public TipoDocumentoModel adicionar(@RequestBody @Valid TipoDocumentoInput tipoDocumentoInput) {
+		TipoDocumento tipoDocumento = tipoDocumentoInputDiassembler.toDomainObject(tipoDocumentoInput);
+		return tipoDocumentoModelAssembler.toModel(cadastroTipoDocumento.salvar(tipoDocumento));
 	}
 
 	@PutMapping(value = "/{tipoDocumentoId}")
-	public TipoDocumento atualizar(@PathVariable Long tipoDocumentoId, @RequestBody TipoDocumento tipoDocumento) {
+	public TipoDocumentoModel atualizar(@PathVariable Long tipoDocumentoId, 
+			@RequestBody @Valid TipoDocumentoInput tipoDocumentoInput) {
 
 		TipoDocumento tipoDocumentoAtual = cadastroTipoDocumento.buscarSeExistir(tipoDocumentoId);
+		tipoDocumentoInputDiassembler.copyToDomainObject(tipoDocumentoInput, tipoDocumentoAtual);
 
-		BeanUtils.copyProperties(tipoDocumento, tipoDocumentoAtual, "id");
-		return cadastroTipoDocumento.salvar(tipoDocumentoAtual);
+		return tipoDocumentoModelAssembler.toModel(cadastroTipoDocumento.salvar(tipoDocumentoAtual));
 	}
 
 	@DeleteMapping(value = "/{tipoDocumentoId}")

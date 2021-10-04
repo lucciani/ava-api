@@ -1,8 +1,9 @@
-package io.github.lucciani.ava.api;
+package io.github.lucciani.ava.api.controller;
 
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.github.lucciani.ava.api.assembler.RegiaoInputDiassembler;
+import io.github.lucciani.ava.api.assembler.RegiaoModelAssembler;
+import io.github.lucciani.ava.api.model.RegiaoModel;
+import io.github.lucciani.ava.api.model.input.RegiaoInput;
 import io.github.lucciani.ava.domain.model.Regiao;
 import io.github.lucciani.ava.domain.repository.RegiaoRepository;
 import io.github.lucciani.ava.domain.service.CadastroRegiaoService;
@@ -28,30 +33,39 @@ public class RegiaoController {
 
 	@Autowired
 	private CadastroRegiaoService cadastroRegiao;
+	
+	@Autowired
+	private RegiaoModelAssembler regiaoModelAssembler;
+	
+	@Autowired
+	private RegiaoInputDiassembler regiaoInputDiassembler;
 
 	@GetMapping
-	public List<Regiao> listar() {
-		return regiaoRepository.findAll();
+	public List<RegiaoModel> listar() {
+		return regiaoModelAssembler.toCollectionModel(regiaoRepository.findAll());
 	}
 
 	@GetMapping(value = "/{regiaoId}")
-	public Regiao buscar(@PathVariable Long regiaoId) {
-		return cadastroRegiao.buscarSeExistir(regiaoId);
+	public RegiaoModel buscar(@PathVariable Long regiaoId) {
+		return regiaoModelAssembler.toModel(cadastroRegiao.buscarSeExistir(regiaoId));
 	}
 
 	@PostMapping
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public Regiao adicionar(@RequestBody Regiao regiao) {
-		return cadastroRegiao.salvar(regiao);
+	public RegiaoModel adicionar(@RequestBody @Valid RegiaoInput regiaoInput) {
+		Regiao regiao = regiaoInputDiassembler.toDomainObject(regiaoInput);
+		return regiaoModelAssembler.toModel(cadastroRegiao.salvar(regiao));
 	}
 
 	@PutMapping(value = "/{regiaoId}")
-	public Regiao atualizar(@PathVariable Long regiaoId, @RequestBody Regiao regiao) {
+	public RegiaoModel atualizar(@PathVariable Long regiaoId, 
+			@RequestBody @Valid RegiaoInput regiaoInput) {
 
 		Regiao regiaoAtual = cadastroRegiao.buscarSeExistir(regiaoId);
+		
+		regiaoInputDiassembler.copyToDomainObject(regiaoInput, regiaoAtual);
 
-		BeanUtils.copyProperties(regiao, regiaoAtual, "id");
-		return cadastroRegiao.salvar(regiaoAtual);
+		return regiaoModelAssembler.toModel(cadastroRegiao.salvar(regiaoAtual));
 	}
 
 	@DeleteMapping(value = "/{regiaoId}")
