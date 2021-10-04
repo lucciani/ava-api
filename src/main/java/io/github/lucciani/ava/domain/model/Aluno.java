@@ -1,6 +1,6 @@
 package io.github.lucciani.ava.domain.model;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -68,10 +68,10 @@ public class Aluno {
 
 	@CreationTimestamp
 	@Column(nullable = false, name = "dt_inclusao", columnDefinition = "datetime(0)")
-	private LocalDateTime dataInclusao;
+	private OffsetDateTime dataInclusao;
 
 	@UpdateTimestamp
 	@Column(nullable = false, name = "dt_atualizacao", columnDefinition = "datetime(0)")
-	private LocalDateTime dataAtualizacao;
+	private OffsetDateTime dataAtualizacao;
 
 }
