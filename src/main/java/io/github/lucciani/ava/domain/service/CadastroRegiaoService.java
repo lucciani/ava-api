@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import io.github.lucciani.ava.domain.exception.EntidadeEmUsoException;
 import io.github.lucciani.ava.domain.exception.RegiaoNaoEncontradaException;
@@ -19,13 +20,16 @@ public class CadastroRegiaoService {
 	@Autowired
 	private RegiaoRepository regiaoRepository;
 	
+	@Transactional
 	public Regiao salvar(Regiao regiao) {
 		return regiaoRepository.save(regiao);
 	}
 
+	@Transactional
 	public void remover(Long regiaoId) {
 		try {
 			regiaoRepository.deleteById(regiaoId);
+			regiaoRepository.flush();
 		} catch (EmptyResultDataAccessException e) {
 			throw new RegiaoNaoEncontradaException(regiaoId);
 		} catch (DataIntegrityViolationException e) {
