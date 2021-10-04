@@ -6,8 +6,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -16,17 +14,23 @@ import lombok.EqualsAndHashCode;
 @Entity
 public class Estado {
 
+//	@NotNull(groups = Groups.EstadoId.class)
+//	@Positive
 	@EqualsAndHashCode.Include
 	@Id
 	private Long id;
 
+//	@NotBlank
 	@Column(nullable = false)
 	private String sigla;
 	
+//	@NotBlank
 	@Column(nullable = false)
 	private String nome;
 		
-	@JsonIgnore
+//	@Valid
+//	@ConvertGroup(from = Default.class, to = Groups.RegiaoId.class)
+//	@NotNull
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Regiao regiao;
