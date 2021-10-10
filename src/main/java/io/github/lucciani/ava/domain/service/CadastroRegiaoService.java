@@ -14,7 +14,7 @@ import io.github.lucciani.ava.domain.repository.RegiaoRepository;
 @Service
 public class CadastroRegiaoService {
 
-	private static final String MSG_TIPO_DOCUMENTO_EM_USO 
+	private static final String MSG_REGIAO_EM_USO 
 			= "Regiao de código %d não pode ser removida, pois está em uso.";
 	
 	@Autowired
@@ -34,7 +34,7 @@ public class CadastroRegiaoService {
 			throw new RegiaoNaoEncontradaException(regiaoId);
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(
-					String.format(MSG_TIPO_DOCUMENTO_EM_USO, regiaoId));
+					String.format(MSG_REGIAO_EM_USO, regiaoId));
 		}
 
 	}
