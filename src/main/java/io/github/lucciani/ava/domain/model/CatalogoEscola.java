@@ -31,6 +31,10 @@ public class CatalogoEscola {
 	private String nome;
 
 	@Embedded
+	private DadosEndereco dadosEndereco;
+	
+	@ManyToOne
+	@JoinColumn(name = "endereco_id", nullable = false)
 	private Endereco endereco;
 
 	private Long codigoInep;

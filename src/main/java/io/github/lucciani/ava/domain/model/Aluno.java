@@ -1,6 +1,8 @@
 package io.github.lucciani.ava.domain.model;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -8,6 +10,8 @@ import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 
@@ -38,6 +42,10 @@ public class Aluno {
 	private Pessoa pessoa;
 
 	@Embedded
+	private DadosEndereco dadosEndereco;
+	
+	@ManyToOne
+	@JoinColumn(name = "endereco_id", nullable = false)
 	private Endereco endereco;
 
 	@Embedded
@@ -65,6 +73,16 @@ public class Aluno {
 	@ManyToOne
 	@JoinColumn(name = "escola_id", nullable = false)
 	private CatalogoEscola catalogoEscola;
+	
+	@ManyToMany
+	@JoinTable(name = "aluno_grupo", 
+				joinColumns={
+						@JoinColumn(name = "tipo_documento_id"),
+						@JoinColumn(name = "tipo_aluno_id"),
+						@JoinColumn(name = "documento")
+				},
+				inverseJoinColumns = @JoinColumn(name = "grupo_id"))
+	private List<Grupo> grupos = new ArrayList<>();
 
 	@CreationTimestamp
 	@Column(nullable = false, name = "dt_inclusao", columnDefinition = "datetime(0)")
