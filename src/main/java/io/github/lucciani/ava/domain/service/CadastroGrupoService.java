@@ -8,9 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.github.lucciani.ava.domain.exception.EntidadeEmUsoException;
 import io.github.lucciani.ava.domain.exception.GrupoNaoEncontradaException;
-import io.github.lucciani.ava.domain.exception.RegiaoNaoEncontradaException;
 import io.github.lucciani.ava.domain.model.Grupo;
-import io.github.lucciani.ava.domain.model.Regiao;
 import io.github.lucciani.ava.domain.repository.GrupoRepository;
 
 @Service
