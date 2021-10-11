@@ -11,16 +11,20 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CidadeInput {
+public class EnderecoInput {
 	
 	@NotBlank
-	private String nome;
-
-	private Long codigoIbge;
-
-	@JsonIgnoreProperties(value = {"sigla", "nome"}, allowGetters = true)
+	private String cep;
+	
+	@NotBlank
+	private String logradouro;
+	
+	@NotBlank
+	private String bairro;
+	
+	@JsonIgnoreProperties(value = {"nome", "codigoIbge"}, allowGetters = true)
 	@Valid
 	@NotNull
-	private EstadoInput estado;
+	private CidadeIdInput cidade;
 
 }
