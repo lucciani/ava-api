@@ -1,21 +1,20 @@
 package io.github.lucciani.ava.api.model.input;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-
-import org.hibernate.validator.constraints.br.CNPJ;
 
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
-public class EmpresaInput {
+@Getter
+public class UsuarioInput {
 	
 	@NotBlank
-	@CNPJ
-	private String cnpj;
+	private String nome;
 	
 	@NotBlank
-	private String razaoSocial;
+	@Email
+	private String email;
 
 }
