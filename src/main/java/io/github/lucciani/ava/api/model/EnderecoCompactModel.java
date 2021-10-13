@@ -11,6 +11,6 @@ public class EnderecoCompactModel {
 	private String cep;
 	private String logradouro;
 	private String bairro;
-	private CidadeIdCompactModel cidade;
+	private CidadeCompactModel cidade;
 
 }

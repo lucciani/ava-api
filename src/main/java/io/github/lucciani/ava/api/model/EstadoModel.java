@@ -10,6 +10,6 @@ public class EstadoModel {
 	private Long id;
 	private String sigla;
 	private String nome;
-	private RegiaoModel regiao;
+	private String regiao;
 
 }

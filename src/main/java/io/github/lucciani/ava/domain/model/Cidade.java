@@ -7,11 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.groups.ConvertGroup;
-import javax.validation.groups.Default;
 
 import io.github.lucciani.ava.core.validation.Groups;
 import lombok.Data;
@@ -34,9 +31,6 @@ public class Cidade {
 	
 	private Long codigoIbge;
 
-	@Valid
-	@ConvertGroup(from = Default.class, to = Groups.EstadoId.class)
-	@NotNull
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Estado estado;

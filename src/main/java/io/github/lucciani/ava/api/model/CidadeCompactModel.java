@@ -10,6 +10,6 @@ public class CidadeCompactModel {
 	private Long id;
 	private String nome;
 	private Long codigoIbge;
-	private EstadoCompactModel estado;
+	private String estado;
 
 }
