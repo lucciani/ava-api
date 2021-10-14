@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import io.github.lucciani.ava.domain.exception.EntidadeEmUsoException;
 import io.github.lucciani.ava.domain.exception.GrupoNaoEncontradaException;
 import io.github.lucciani.ava.domain.model.Grupo;
+import io.github.lucciani.ava.domain.model.Permissao;
 import io.github.lucciani.ava.domain.repository.GrupoRepository;
 
 @Service
@@ -19,6 +20,9 @@ public class CadastroGrupoService {
 	
 	@Autowired
 	private GrupoRepository grupoRepository;
+	
+	@Autowired
+	private CadastroPermissaoService cadastroPermissao;
 	
 	@Transactional
 	public Grupo salvar(Grupo grupo) {
@@ -38,6 +42,22 @@ public class CadastroGrupoService {
 		}
 
 	}
+	
+	@Transactional
+	public void desassociarPermissao(Long grupoId, Long permissaoId) {
+	    Grupo grupo = buscarSeExistir(grupoId);
+	    Permissao permissao = cadastroPermissao.buscarSeExistir(permissaoId);
+	    
+	    grupo.removerPermissao(permissao);
+	}
+
+	@Transactional
+	public void associarPermissao(Long grupoId, Long permissaoId) {
+	    Grupo grupo = buscarSeExistir(grupoId);
+	    Permissao permissao = cadastroPermissao.buscarSeExistir(permissaoId);
+	    
+	    grupo.adicionarPermissao(permissao);
+	}   
 	
 	public Grupo buscarSeExistir(Long grupoId) {
 		return grupoRepository.findById(grupoId).orElseThrow(
