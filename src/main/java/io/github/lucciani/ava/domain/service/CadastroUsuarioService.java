@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import io.github.lucciani.ava.domain.exception.EntidadeEmUsoException;
 import io.github.lucciani.ava.domain.exception.NegocioException;
 import io.github.lucciani.ava.domain.exception.UsuarioNaoEncontradaException;
+import io.github.lucciani.ava.domain.model.Grupo;
 import io.github.lucciani.ava.domain.model.Usuario;
 import io.github.lucciani.ava.domain.repository.UsuarioRepository;
 
@@ -20,6 +21,9 @@ public class CadastroUsuarioService {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private CadastroGrupoService cadastroGrupo;
 
 	@Transactional
 	public Usuario salvar(Usuario usuario) {
@@ -51,6 +55,22 @@ public class CadastroUsuarioService {
 
 	}
 
+	@Transactional
+	public void desassociarGrupo(Long usuarioId, Long grupoId) {
+	    Usuario usuario = buscarSeExistir(usuarioId);
+	    Grupo grupo = cadastroGrupo.buscarSeExistir(grupoId);
+	    
+	    usuario.removerGrupo(grupo);
+	}
+
+	@Transactional
+	public void associarGrupo(Long usuarioId, Long grupoId) {
+	    Usuario usuario = buscarSeExistir(usuarioId);
+	    Grupo grupo = cadastroGrupo.buscarSeExistir(grupoId);
+	    
+	    usuario.adicionarGrupo(grupo);
+	}
+	
 	public Usuario buscarSeExistir(Long usuarioId) {
 		return usuarioRepository.findById(usuarioId)
 				.orElseThrow(() -> new UsuarioNaoEncontradaException(usuarioId));
