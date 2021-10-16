@@ -1,5 +1,7 @@
 package io.github.lucciani.ava.domain.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -96,6 +98,16 @@ public class CadastroCatalogoEscolaService {
 	public void inativar(Long catalogoEscolaId) {
 		CatalogoEscola catalogoEscolaAtual = buscarSeExistir(catalogoEscolaId);
 		catalogoEscolaAtual.inativar();
+	}
+	
+	@Transactional
+	public void ativar(List<Long> catalogoEscolaIds) {
+		catalogoEscolaIds.forEach(this::ativar);
+	}
+	
+	@Transactional
+	public void inativar(List<Long> catalogoEscolaIds) {
+		catalogoEscolaIds.forEach(this::inativar);
 	}
 
 	public CatalogoEscola buscarSeExistir(Long catalogoEscolaId) {

@@ -20,6 +20,7 @@ import io.github.lucciani.ava.api.assembler.CatalogoEscolaInputDiassembler;
 import io.github.lucciani.ava.api.assembler.CatalogoEscolaModelAssembler;
 import io.github.lucciani.ava.api.model.CatalogoEscolaModel;
 import io.github.lucciani.ava.api.model.input.CatalogoEscolaInput;
+import io.github.lucciani.ava.domain.exception.CatalogoEscolaNaoEncontradaException;
 import io.github.lucciani.ava.domain.exception.CategoriaAdministrativaNaoEncontradaException;
 import io.github.lucciani.ava.domain.exception.CredeNaoEncontradaException;
 import io.github.lucciani.ava.domain.exception.EnderecoNaoEncontradaException;
@@ -60,20 +61,17 @@ public class CatalogoEscolaController {
 	public CatalogoEscolaModel adicionar(@RequestBody @Valid CatalogoEscolaInput catalogoEscolaInput) {
 		try {
 			CatalogoEscola catalogoEscola = catalogoEscolaInputDiassembler.toDomainObject(catalogoEscolaInput);
-			
-			return catalogoEscolaModelAssembler
-					.toModel(cadastroCatalogoEscola.salvar(catalogoEscola));
-			
-		} catch (CredeNaoEncontradaException
-				| CategoriaAdministrativaNaoEncontradaException
-				| SituacaoEscolaNaoEncontradaException
-				| EnderecoNaoEncontradaException e) {
+
+			return catalogoEscolaModelAssembler.toModel(cadastroCatalogoEscola.salvar(catalogoEscola));
+
+		} catch (CredeNaoEncontradaException | CategoriaAdministrativaNaoEncontradaException
+				| SituacaoEscolaNaoEncontradaException | EnderecoNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage(), e);
-		} 
+		}
 	}
 
 	@PutMapping(value = "/{catalogoEscolaId}")
-	public CatalogoEscolaModel atualizar(@PathVariable Long catalogoEscolaId, 
+	public CatalogoEscolaModel atualizar(@PathVariable Long catalogoEscolaId,
 			@RequestBody @Valid CatalogoEscolaInput catalogoEscolaInput) {
 		try {
 			CatalogoEscola CatalogoEscolaAtual = cadastroCatalogoEscola.buscarSeExistir(catalogoEscolaId);
@@ -81,12 +79,10 @@ public class CatalogoEscolaController {
 			catalogoEscolaInputDiassembler.copyToDomainObject(catalogoEscolaInput, CatalogoEscolaAtual);
 
 			return catalogoEscolaModelAssembler.toModel(cadastroCatalogoEscola.salvar(CatalogoEscolaAtual));
-		} catch (CredeNaoEncontradaException
-				| CategoriaAdministrativaNaoEncontradaException
-				| SituacaoEscolaNaoEncontradaException
-				| EnderecoNaoEncontradaException e) {
+		} catch (CredeNaoEncontradaException | CategoriaAdministrativaNaoEncontradaException
+				| SituacaoEscolaNaoEncontradaException | EnderecoNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage(), e);
-		} 
+		}
 	}
 
 //	@DeleteMapping(value = "/{catalogoEscolaId}")
@@ -94,19 +90,37 @@ public class CatalogoEscolaController {
 //	public void remover(@PathVariable Long catalogoEscolaId) {
 //		cadastroCatalogoEscola.remover(catalogoEscolaId);
 //	}
-	
+
 	@PutMapping(value = "/{catalogoEscolaId}/ativo")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void ativar(@PathVariable Long catalogoEscolaId) {
 		cadastroCatalogoEscola.ativar(catalogoEscolaId);
 	}
-	
+
+	@PutMapping(value = "/ativacoes")
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void ativarEmMassa(@RequestBody List<Long> catalagoEscolaIds) {
+		try {
+			cadastroCatalogoEscola.ativar(catalagoEscolaIds);
+		} catch (CatalogoEscolaNaoEncontradaException e) {
+			throw new NegocioException(e.getMessage(), e);
+		}
+	}
+
 	@DeleteMapping(value = "/{catalogoEscolaId}/ativo")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void inativar(@PathVariable Long catalogoEscolaId) {
 		cadastroCatalogoEscola.inativar(catalogoEscolaId);
 	}
-	
-	
+
+	@DeleteMapping(value = "/ativacoes")
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void inativarEmMassa(@RequestBody List<Long> catalagoEscolaIds) {
+		try {
+			cadastroCatalogoEscola.inativar(catalagoEscolaIds);
+		} catch (CatalogoEscolaNaoEncontradaException e) {
+			throw new NegocioException(e.getMessage(), e);
+		}
+	}
 
 }
