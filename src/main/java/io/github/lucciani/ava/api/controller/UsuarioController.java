@@ -80,4 +80,16 @@ public class UsuarioController {
 	public void remover(@PathVariable Long usuarioId) {
 		cadastroUsuario.remover(usuarioId);
 	}
+	
+	@PutMapping(value = "/{usuarioId}/ativo")
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void ativar(@PathVariable Long usuarioId) {
+		cadastroUsuario.ativar(usuarioId);
+	}
+	
+	@DeleteMapping(value = "/{usuarioId}/ativo")
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void inativar(@PathVariable Long usuarioId) {
+		cadastroUsuario.inativar(usuarioId);
+	}
 }

@@ -1,5 +1,7 @@
 package io.github.lucciani.ava.domain.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -27,6 +29,15 @@ public class CadastroUsuarioService {
 
 	@Transactional
 	public Usuario salvar(Usuario usuario) {
+		usuarioRepository.detach(usuario);
+		Optional<Usuario> usuarioExistente = usuarioRepository.findByEmail(usuario.getEmail());
+		
+		if (usuarioExistente.isPresent() && !usuarioExistente.get().equals(usuario)) {
+			throw new NegocioException(
+					String.format("Já existe um usuário cadastrado com o e-mail %s", usuario.getEmail()));
+		}
+			
+		
 		return usuarioRepository.save(usuario);
 	}
 	
@@ -53,6 +64,20 @@ public class CadastroUsuarioService {
 					String.format(MSG_USUARIO_EM_USO, sexoId));
 		}
 
+	}
+	
+	@Transactional
+	public void ativar(Long usuarioId) {
+		Usuario usuarioAtual = buscarSeExistir(usuarioId);
+		
+		usuarioAtual.ativar();
+	}
+	
+	@Transactional
+	public void inativar(Long usuarioId) {
+		Usuario usuarioAtual = buscarSeExistir(usuarioId);
+		
+		usuarioAtual.inativar();
 	}
 
 	@Transactional

@@ -382,11 +382,11 @@ INSERT INTO permissao (id, nome, descricao) values (3, 'REMOVER_ALUNOS', 'Permit
 
 INSERT INTO grupo_permissao (grupo_id, permissao_id) values (1, 1), (1, 2), (2, 1), (2, 2), (3, 1); 
 
-INSERT INTO usuario (id, nome, email, senha, data_cadastro) values
-(1, 'Giancarlo Lucciani', 'giancarlo.lucciani@opovodigital.com', '123', utc_timestamp),
-(2, 'Marisa Buxo', 'maria.buxo@fdr.com', '123', utc_timestamp),
-(3, 'Joel Bruno', 'joelbruno@fdr.com', '123', utc_timestamp),
-(4, 'Viviane Dummar', 'viviane@fdr.com', '123', utc_timestamp);
+INSERT INTO usuario (id, nome, email, senha, data_cadastro, ativo) values
+(1, 'Giancarlo Lucciani', 'giancarlo.lucciani@opovodigital.com', '123', utc_timestamp, 1),
+(2, 'Marisa Buxo', 'maria.buxo@fdr.com', '123', utc_timestamp,1),
+(3, 'Joel Bruno', 'joelbruno@fdr.com', '123', utc_timestamp,1),
+(4, 'Viviane Dummar', 'viviane@fdr.com', '123', utc_timestamp,1);
 
 INSERT INTO usuario_grupo (usuario_id, grupo_id) values (1, 1), (1, 2), (2, 2);
 
