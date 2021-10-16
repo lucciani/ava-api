@@ -370,9 +370,9 @@ INSERT INTO endereco (endereco_cep, endereco_bairro, endereco_logradouro, endere
 INSERT INTO empresa (cnpj, razao_social,dt_inclusao,dt_atualizacao) VALUES ('72710850000194', 'Juan e Mariana Comercio de Bebidas ME',utc_timestamp, utc_timestamp);
 INSERT INTO empresa (cnpj, razao_social,dt_inclusao,dt_atualizacao) VALUES ('41811216000114', 'Emilly e Larissa Padaria Ltda',utc_timestamp, utc_timestamp);
 
-INSERT INTO catalogo_escola (nome, categoria_administrativa_id, endereco_id, endereco_complemento, endereco_numero, localizacao_id, endereco_pais_id, situacao_escola, codigo_escola, crede_id, dt_inclusao, dt_atualizacao) VALUES ('Colegio 21 de Abril', 2, 1, NULL, '820', 2, 76, 1, 23064641, NULL, utc_timestamp, utc_timestamp);
-INSERT INTO catalogo_escola (nome, categoria_administrativa_id, endereco_id, endereco_complemento, endereco_numero, localizacao_id, endereco_pais_id, situacao_escola, codigo_escola, crede_id, dt_inclusao, dt_atualizacao) VALUES ('Academos Organizacao Educacional', 2, 1,NULL, NULL, 2,76, 1, 23064650, NULL, utc_timestamp, utc_timestamp);
-INSERT INTO catalogo_escola (nome, categoria_administrativa_id, endereco_id, endereco_complemento, endereco_numero, localizacao_id, endereco_pais_id, situacao_escola, codigo_escola, crede_id, dt_inclusao, dt_atualizacao) VALUES ('EEM Governador Adauto Bezerra', 1, 1, NULL, '1850',2, 76, 1, 23064684, 23, utc_timestamp, utc_timestamp);
+INSERT INTO catalogo_escola (nome, categoria_administrativa_id, endereco_id, endereco_complemento, endereco_numero, localizacao_id, endereco_pais_id, situacao_escola, codigo_escola, crede_id, dt_inclusao, dt_atualizacao, ativo) VALUES ('Colegio 21 de Abril', 2, 1, NULL, '820', 2, 76, 1, 23064641, NULL, utc_timestamp, utc_timestamp,1);
+INSERT INTO catalogo_escola (nome, categoria_administrativa_id, endereco_id, endereco_complemento, endereco_numero, localizacao_id, endereco_pais_id, situacao_escola, codigo_escola, crede_id, dt_inclusao, dt_atualizacao, ativo) VALUES ('Academos Organizacao Educacional', 2, 1,NULL, NULL, 2,76, 1, 23064650, NULL, utc_timestamp, utc_timestamp,1);
+INSERT INTO catalogo_escola (nome, categoria_administrativa_id, endereco_id, endereco_complemento, endereco_numero, localizacao_id, endereco_pais_id, situacao_escola, codigo_escola, crede_id, dt_inclusao, dt_atualizacao, ativo) VALUES ('EEM Governador Adauto Bezerra', 1, 1, NULL, '1850',2, 76, 1, 23064684, 23, utc_timestamp, utc_timestamp,1);
 
 insert into grupo (id, nome) values (1, 'Administrador'), (2, 'Gerente'), (3, 'Tutor'), (4, 'Aluno');
 

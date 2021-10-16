@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class EnderecoModel {
-	
+
 	private Long id;
 	private String cep;
 	private String logradouro;

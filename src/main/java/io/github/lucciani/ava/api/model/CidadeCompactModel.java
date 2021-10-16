@@ -7,7 +7,6 @@ import lombok.Setter;
 @Setter
 public class CidadeCompactModel {
 	
-	private Long id;
 	private String nome;
 	private Long codigoIbge;
 	private String estado;

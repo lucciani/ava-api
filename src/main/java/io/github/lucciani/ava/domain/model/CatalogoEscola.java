@@ -37,7 +37,7 @@ public class CatalogoEscola {
 	@JoinColumn(name = "endereco_id", nullable = false)
 	private Endereco endereco;
 
-	private Long codigoInep;
+	private Long codigoEscola;
 
 	@ManyToOne
 	@JoinColumn(name = "crede_id")
@@ -58,4 +58,14 @@ public class CatalogoEscola {
 	@UpdateTimestamp
 	@Column(nullable = false, name = "dt_atualizacao", columnDefinition = "datetime(0)")
 	private OffsetDateTime dataAtualizacao;
+	
+	private Boolean ativo = Boolean.TRUE;
+	
+	public void ativar() {
+		setAtivo(true);
+	}
+	
+	public void inativar() {
+		setAtivo(false);
+	}
 }

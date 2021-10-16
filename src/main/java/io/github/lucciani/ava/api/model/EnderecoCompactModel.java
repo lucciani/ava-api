@@ -6,11 +6,22 @@ import lombok.Setter;
 @Getter
 @Setter
 public class EnderecoCompactModel {
-	
-	private Long id;
+
 	private String cep;
 	private String logradouro;
 	private String bairro;
-	private CidadeCompactModel cidade;
+	private String numero;
+	private String complemento;
+	private String localizacao;
+	private String pais;
+	private String cidade;
+	@Override
+	public String toString() {
+		return "[cep=" + cep + ", logradouro=" + logradouro + ", bairro=" + bairro + ", numero="
+				+ numero + ", complemento=" + complemento + ", localizacao=" + localizacao + ", pais=" + pais
+				+ ", cidade=" + cidade + "]";
+	}
+	
+	
 
 }
