@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.Data;
 
@@ -17,11 +19,13 @@ public class Pessoa {
 	@Column(nullable = true, name = "nome_social")
 	private String nomeSocial;
 
-	@Column(nullable = false, name = "sexo")
-	private String sexo;
+	@ManyToOne
+	@JoinColumn(name = "sexo_id", nullable = false)
+	private Sexo sexo;
 
-	@Column(nullable = true, name = "genero")
-	private String genero;
+	@ManyToOne
+	@JoinColumn(name = "genero_id", nullable = false)
+	private Genero genero;
 	
 	@Column(nullable = false, name = "dt_nascimento")
 	private LocalDate dataNascimento;

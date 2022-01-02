@@ -15,13 +15,5 @@ public class EnderecoCompactModel {
 	private String localizacao;
 	private String pais;
 	private String cidade;
-	@Override
-	public String toString() {
-		return "[cep=" + cep + ", logradouro=" + logradouro + ", bairro=" + bairro + ", numero="
-				+ numero + ", complemento=" + complemento + ", localizacao=" + localizacao + ", pais=" + pais
-				+ ", cidade=" + cidade + "]";
-	}
-	
-	
 
 }

@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,7 +19,6 @@ public class TipoDocumento {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotBlank
 	@Column(nullable = false, name = "descricao")
 	private String descricao;
 

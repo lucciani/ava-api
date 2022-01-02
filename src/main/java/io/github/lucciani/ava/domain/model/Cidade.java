@@ -8,9 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
-import io.github.lucciani.ava.core.validation.Groups;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -19,7 +17,6 @@ import lombok.EqualsAndHashCode;
 @Entity
 public class Cidade {
 
-	@NotNull(groups = Groups.CidadeId.class)
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -4,11 +4,12 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -25,16 +26,20 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 public class Aluno {
+	
+	@EqualsAndHashCode.Include
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
 	@EqualsAndHashCode.Include
 	@EmbeddedId
-	private AlunoId id;
+	private AlunoId chave;
 
 	@Column(name = "documento", insertable = false, updatable = false)
 	private String documento;
 
 	@MapsId(value = "tipoDocumento")
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "tipo_documento_id", nullable = false, insertable = false, updatable = false)
 	private TipoDocumento tipoDocumento;
 
@@ -91,5 +96,15 @@ public class Aluno {
 	@UpdateTimestamp
 	@Column(nullable = false, name = "dt_atualizacao", columnDefinition = "datetime(0)")
 	private OffsetDateTime dataAtualizacao;
+	
+	private Boolean ativo = Boolean.TRUE;
+	
+	public void ativar() {
+		setAtivo(true);
+	}
+	
+	public void inativar() {
+		setAtivo(false);
+	}
 
 }
